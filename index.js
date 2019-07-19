@@ -3,7 +3,6 @@ export  function base64ToFile(src, filePropertyBag = {}, resize){
   const context = canvas.getContext('2d')
   const image = new Image()
   image.src = src
-  console.log(filePropertyBag)
   return new Promise((resolve, reject) => {
     image.onload = (() =>{  
       // リサイズ後のサイズを計算する  
@@ -43,7 +42,6 @@ export  function base64ToFile(src, filePropertyBag = {}, resize){
         i++
       } 
       const file = new File( [barr], filePropertyBag.name , filePropertyBag )
-      console
       resolve(file)
     })
     image.onerror = (e) => reject(e)
