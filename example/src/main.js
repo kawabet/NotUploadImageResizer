@@ -20,7 +20,8 @@ fileInput.addEventListener('change', (event) =>{
     originalView.innerHTML = ''    
     resizeView.innerHTML = ''
     originalView.append(originalImage)
-    base64ToFile(f.target.result, file, lengthInput.value).then((res)=>{
+    base64ToFile(f.target.result, lengthInput.value,file.name).then((res)=>{
+      console.info(res) // 生成されたFileオブジェクト
       const url = window.URL.createObjectURL(res)
       const resizeImage = document.createElement('img')
       resizeImage.setAttribute('src',url)
