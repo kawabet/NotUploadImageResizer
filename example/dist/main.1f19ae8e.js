@@ -126,7 +126,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.resizeImage = resizeImage;
 
 function resizeImage(src) {
-  var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
+  var filePropertyBag = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 500;
   var canvas = document.createElement("canvas");
   var context = canvas.getContext('2d');
   var image = new Image();
@@ -164,9 +165,8 @@ function resizeImage(src) {
         i++;
       }
 
-      resolve(new Blob([barr], {
-        type: 'image/jpeg'
-      }));
+      var file = new File([barr], filePropertyBag.name, filePropertyBag);
+      resolve(file);
     };
 
     image.onerror = function (e) {
@@ -1208,7 +1208,9 @@ var resizeSizeElement = document.querySelector('.resize .size');
 var lengthInput = document.querySelector('.length');
 fileInput.addEventListener('change', function (event) {
   var file = event.target.files[0];
-  var reader = new FileReader(); // 画像ファイル以外の場合は処理を中断
+  var reader = new FileReader();
+  var filePropertyBag = file; // ファイルのプロパティ
+  // 画像ファイル以外の場合は処理を中断
 
   if (file.type.indexOf('image') < 0) {
     return false;
@@ -1220,7 +1222,7 @@ fileInput.addEventListener('change', function (event) {
     originalView.innerHTML = '';
     resizeView.innerHTML = '';
     originalView.append(originalImage);
-    (0, _index.resizeImage)(file.target.result, lengthInput.value).then(function (res) {
+    (0, _index.resizeImage)(file.target.result, filePropertyBag, lengthInput.value).then(function (res) {
       var url = window.URL.createObjectURL(res);
       var resizeImage = document.createElement('img');
       resizeImage.setAttribute('src', url);
@@ -1260,7 +1262,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53538" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55081" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
