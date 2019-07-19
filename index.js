@@ -59,10 +59,11 @@ export function pathToFile(src, resize){
   const context = canvas.getContext('2d')
   const image = new Image()
   
-  const name = src.match(".+/(.+?)\.[a-z]+([\?#;].*)?$")[1];
+
   const name_ext = src.match(".+/(.+?)([\?#;].*)?$")[1];
   let ext = name_ext.substring(name_ext.lastIndexOf('.') + 1,name_ext.length);
   if(ext == 'jpg')ext = 'jpeg' // なんか image/jpg　でbase64化すると image/png　になってしまう。
+  const type = `images/${ext}`
   image.src = src
 
   return new Promise((resolve, reject) => {
@@ -86,10 +87,25 @@ export function pathToFile(src, resize){
       canvas.width = width
       context.drawImage(image, 0, 0, width, height)
       
-      const base64 = canvas.toDataURL(`image/${ext}`);
-      console.log(base64)
+      const base64 = canvas.toDataURL(type);
+      // base64からBlobデータを作成
+      let barr, bin, i, len
+      bin = atob(base64.split('base64,')[1])
+      len = bin.length;
+      barr = new Uint8Array(len)
+  
+      i = 0
+      while ( i < len ) {
+        barr[i] = bin.charCodeAt(i)
+        i++
+      } 
+      
+      // fileオブジェクトを作成
+      const file = new File( [barr], name_ext , {type:type})
+      resolve(file)
 
 
     })
+    image.onerror = (e) => reject(e)
   })
 }

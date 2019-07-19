@@ -6,8 +6,8 @@ var image = new Image();
 image.onload = function(){
 
   pathToFile(src).then((res)=>{
-    console.log(res)
-  //  window.location = window.URL.createObjectURL(res)
+    console.info(res) // 仕上がり
+    window.location = window.URL.createObjectURL(res)
   })  
 }
 
