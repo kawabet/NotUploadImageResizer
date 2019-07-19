@@ -19,7 +19,6 @@ export  function base64ToFile(src, filePropertyBag = {}, resize){
           height = resize
         }
       } else {
-        console.log("test")
         width = image.width
         height = image.height
       }
