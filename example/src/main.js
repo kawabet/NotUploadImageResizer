@@ -11,18 +11,15 @@ const lengthInput = document.querySelector('.length')
 fileInput.addEventListener('change', (event) =>{
   const file = event.target.files[0]
   const reader = new FileReader()
-  // 画像ファイル以外の場合は処理を中断
-  if( file.type.indexOf('image') < 0){
+  if( file.type.indexOf('image') < 0){　  // 画像ファイル以外の場合は処理を中断
     return false;
   }
-   
   reader.onload = ((f) => {
     let originalImage = document.createElement('img')
     originalImage.setAttribute('src',f.target.result)
     originalView.innerHTML = ''    
     resizeView.innerHTML = ''
-    originalView.append(originalImage)  
-
+    originalView.append(originalImage)
     base64ToFile(f.target.result, file, lengthInput.value).then((res)=>{
       const url = window.URL.createObjectURL(res)
       const resizeImage = document.createElement('img')
