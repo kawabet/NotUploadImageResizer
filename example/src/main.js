@@ -1,4 +1,4 @@
-import {resizeImage} from '../../index'
+import {base64ToFile} from '../../index'
 import numeral from 'numeral'
 
 const fileInput = document.querySelector('.file-input')
@@ -11,25 +11,24 @@ const lengthInput = document.querySelector('.length')
 fileInput.addEventListener('change', (event) =>{
   const file = event.target.files[0]
   const reader = new FileReader()
-  const filePropertyBag = file  // ファイルのプロパティ
   // 画像ファイル以外の場合は処理を中断
   if( file.type.indexOf('image') < 0){
     return false;
   }
    
-  reader.onload = ((file) => {
+  reader.onload = ((f) => {
     let originalImage = document.createElement('img')
-    originalImage.setAttribute('src',file.target.result)
+    originalImage.setAttribute('src',f.target.result)
     originalView.innerHTML = ''    
     resizeView.innerHTML = ''
     originalView.append(originalImage)  
 
-    resizeImage(file.target.result,filePropertyBag,lengthInput.value).then((res)=>{
+    base64ToFile(f.target.result, file, lengthInput.value).then((res)=>{
       const url = window.URL.createObjectURL(res)
       const resizeImage = document.createElement('img')
       resizeImage.setAttribute('src',url)
       resizeView.append(resizeImage)
-      originalSizeElement.innerHTML = numeral(file.total).format('0.0 b')
+      originalSizeElement.innerHTML = numeral(f.total).format('0.0 b')
       resizeSizeElement.innerHTML = numeral(res.size).format('0.0 b')
       
     })
