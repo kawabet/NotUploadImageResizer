@@ -1,4 +1,4 @@
-import {resizeImage} from './js/ResizeImage'
+import {resizeImage} from '../../index'
 import numeral from 'numeral'
 
 const fileInput = document.querySelector('.file-input')
