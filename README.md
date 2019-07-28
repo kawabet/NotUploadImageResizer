@@ -1,5 +1,5 @@
 
-# image-utilis-js
+# image-to-file-converter
 ## Install
 ```
 npm install image-to-file-converter
