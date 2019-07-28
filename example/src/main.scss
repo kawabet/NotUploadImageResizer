@@ -14,8 +14,6 @@ form {
   align-items: center;
   height:300px;
   background: #ddd;
-  margin: 20px;
-  border:solid 1px #ccc;
   text-align:center;
 
   div {
@@ -30,14 +28,17 @@ form {
 
 .wrapper {
   display: flex;
+  margin-left: -5px;
+  margin-right: -5px;
 
   .original,
   .resize {
     min-height: 80px;
-    width: 50%;
-    border:solid 1px #ccc;
-    margin: 20px;    
+    width: 50%; 
     padding: 20px;
+    margin-top: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
     background: #ddd;
 
     b {

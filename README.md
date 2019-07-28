@@ -23,5 +23,5 @@ $ parcel build -d dist ./src/index.html --public-url ./
 ```
 
 ## TIPS
-### ダウンロードURLを生成する
+### FileオブジェクトのダウンロードURLを生成する
 `let url = window.URL.createObjectURL(File);`

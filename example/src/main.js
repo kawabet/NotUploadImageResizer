@@ -27,10 +27,10 @@ fileInput.addEventListener('change', (event) =>{
       resizeImage.setAttribute('src',url)
       resizeView.append(resizeImage)
       originalSizeElement.innerHTML = numeral(f.total).format('0.0 b')
-      resizeSizeElement.innerHTML = numeral(res.size).format('0.0 b')
-      
+      resizeSizeElement.innerHTML = `${numeral(res.size).format('0.0 b')} <small>-${Math.floor((1 -  res.size / f.total) * 100) }%</small>`
+      console.log((1-  res.size / f.total) * 100)
     })
-  })
+  }) 
   reader.readAsDataURL(file)
 
 })
