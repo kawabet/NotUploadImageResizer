@@ -1,0 +1,26 @@
+{
+  "name": "image-to-file-converter",
+  "version": "1.0.1",
+  "description": "Convert an image to a File object",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkpea/image-to-file-converter.git"
+  },
+  "keywords": [
+    "image",
+    "file"
+  ],
+  "author": "Takuya <tkpea56@gmail.com> (https://github.com/tkpea)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tkpea/image-to-file-converter/issues"
+  },
+  "homepage": "https://github.com/tkpea/image-to-file-converter#readme"
+}
