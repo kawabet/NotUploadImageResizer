@@ -1,5 +1,14 @@
 
 # image-utilis-js
+## Install
+```
+npm install image-to-file-converter
+
+// or
+
+yarn add image-to-file-converter
+```
+
 ## Functions
 ### base64ToFile
 ```
