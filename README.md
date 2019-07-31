@@ -1,5 +1,23 @@
 
-# image-utilis-js
+# image-to-file-converter
+
+## Install
+```
+$ npm install image-to-file-converter
+
+```
+
+## Usas
+
+画像パスからFileオブジェクト
+```
+import { pathToFile } from 'image-to-file-converter'
+
+pathToFile('./path/to/image.jpg').then((res)=>{
+      console.info(res)  // File
+})  
+```
+
 ## Functions
 ### base64ToFile
 ```
