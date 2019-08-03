@@ -1,6 +1,5 @@
 
 # image-to-file-converter
-<<<<<<< HEAD
 
 ## Install
 ```
