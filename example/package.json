@@ -4,6 +4,18 @@
     "sass": "^1.22.7"
   },
   "dependencies": {
-    "numeral": "^2.0.6"
-  }
+    "numeral": "^2.0.6",
+    "parcel": "^1.12.3"
+  },
+  "name": "example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel ./src/index.html",
+    "build": "rm -rf ./dist && parcel build -d dist ./src/index.html --public-url ./"
+  },
+  "author": "Takuya Takahashi <tkpea56@gmail.com> (https://github.com/tkpea)",
+  "license": "ISC",
+  "description": ""
 }

@@ -1,6 +1,5 @@
 
 # image-to-file-converter
-<<<<<<< HEAD
 
 ## Install
 ```
@@ -8,7 +7,7 @@ $ npm install image-to-file-converter
 
 ```
 
-## Usas
+## Usage
 
 画像パスからFileオブジェクト
 ```
@@ -34,12 +33,14 @@ base64ToFile(src: string,  resize?: number, name?: string): Promise<File>
 pathToFile(src: string,  resize?: number): Promise<File>
 ```
 
+## DEMO
+https://tkpea.github.io/image-to-file-converter/example/dist/
 ## Example
-
-### Build
 ```
-$ cd ./example
-$ parcel build -d dist ./src/index.html --public-url ./
+$ git clone https://github.com/tkpea/image-to-file-converter.git
+$ cd ./example/image-to-file-converter
+$ npm install
+$ npm run start
 ```
 
 ## TIPS
