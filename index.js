@@ -139,16 +139,26 @@ export  function getOrientation(file){
     reader.addEventListener('load', () => {
       let orientation = 0
       const dv = new DataView(reader.result)
-      if (dv.getUint16(2) === 65505) {
-        const littleEndian = dv.getUint8(12) === 73
-        const count = dv.getUint16(20, littleEndian)
-        for (let i = 0; i < count; i++) {
-          const start = 22 + i * 12
-          const tag = dv.getUint16(start, littleEndian)
-          if (tag === 274) {
-            const value = dv.getUint16(start + 8, littleEndian)
-            orientation = value
-          }
+      let app1MarkerStart = 2
+      // もし JFIF で APP0 Marker がある場合は APP1 Marker の取得位置をずらす
+      if (dv.getUint16(app1MarkerStart) !== 65505) {
+        const length = dv.getUint16(4)
+        app1MarkerStart += length + 2
+      }
+      if (dv.getUint16(app1MarkerStart) !== 65505) {
+        return 0
+      }
+      // エンディアンを取得
+      const littleEndian = dv.getUint8(app1MarkerStart + 10) === 73
+      // フィールドの数を確認
+      const count = dv.getUint16(app1MarkerStart + 18, littleEndian)
+      for (let i = 0; i < count; i++) {
+        const start = app1MarkerStart + 20 + i * 12
+        const tag = dv.getUint16(start, littleEndian)
+        // Orientation の Tag は 274
+        if (tag === 274) {
+          // Orientation は Type が SHORT なので 2byte だけ読む
+          orientation = dv.getUint16(start + 8, littleEndian)
         }
       }
       resolve(orientation)
