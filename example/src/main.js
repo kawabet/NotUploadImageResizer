@@ -1,4 +1,4 @@
-import {base64ToFile} from '../../index'
+import {base64ToFile,getOrientation,OrientationTransformed} from '../../index'
 import numeral from 'numeral'
 
 const fileInput = document.querySelector('.file-input')
@@ -14,13 +14,26 @@ fileInput.addEventListener('change', (event) =>{
   if( file.type.indexOf('image') < 0){　  // 画像ファイル以外の場合は処理を中断
     return false;
   }
-  reader.onload = ((f) => {
+  
+  reader.onload = (async (f) => {
     let originalImage = document.createElement('img')
-    originalImage.setAttribute('src',f.target.result)
+  
+    // ここから回転を修正する処理
+    let orientation = await getOrientation(file)
+    let base64
+    if( orientation > 2){
+      base64 = await OrientationTransformed(file, orientation)
+    }else {
+      base64 = f.target.result
+    }
+    // -----
+
+    originalImage.setAttribute('src',base64 )
     originalView.innerHTML = ''    
-    resizeView.innerHTML = ''
+    resizeView.innerHTML = ''    
     originalView.append(originalImage)
-    base64ToFile(f.target.result, lengthInput.value,file.name).then((res)=>{
+    
+    base64ToFile(base64, lengthInput.value,file.name).then((res)=>{
       console.info(res) // 生成されたFileオブジェクト
       const url = window.URL.createObjectURL(res)
       const resizeImage = document.createElement('img')

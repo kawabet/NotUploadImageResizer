@@ -1,6 +1,6 @@
 {
   "name": "image-to-file-converter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Convert an image to a File object",
   "main": "index.js",
   "directories": {
@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/tkpea/image-to-file-converter/issues"
   },
-  "homepage": "https://github.com/tkpea/image-to-file-converter#readme"
+  "homepage": "https://github.com/tkpea/image-to-file-converter#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
+  }
 }

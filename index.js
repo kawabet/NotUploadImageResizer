@@ -1,3 +1,9 @@
+/**
+ * 
+ * @param {*} src 
+ * @param {*} resize 
+ * @param {*} name 
+ */
 export  function base64ToFile(src, resize, name){
   const canvas = document.createElement("canvas")
   const context = canvas.getContext('2d')
@@ -53,6 +59,11 @@ export  function base64ToFile(src, resize, name){
   })
 }
 
+//**
+/* 
+* @param {*} src 
+* @param {*} resize
+*/
 export function pathToFile(src, resize){
 
   const canvas = document.createElement("canvas")
@@ -108,4 +119,85 @@ export function pathToFile(src, resize){
     })
     image.onerror = (e) => reject(e)
   })
+}
+
+/**
+* 
+* @param {*} file 
+* @param {*} orientation 
+*/
+export  function getOrientation(file){
+  const reader = new FileReader()
+
+  if( file.type.indexOf('image') < 0){　  // 画像ファイル以外の場合は処理を中断
+    return false;
+  }
+
+
+  return new Promise((resolve, reject) => {
+    reader.readAsArrayBuffer(file)
+    reader.addEventListener('load', () => {
+      let orientation = 0
+      const dv = new DataView(reader.result)
+      if (dv.getUint16(2) === 65505) {
+        const littleEndian = dv.getUint8(12) === 73
+        const count = dv.getUint16(20, littleEndian)
+        for (let i = 0; i < count; i++) {
+          const start = 22 + i * 12
+          const tag = dv.getUint16(start, littleEndian)
+          if (tag === 274) {
+            const value = dv.getUint16(start + 8, littleEndian)
+            orientation = value
+          }
+        }
+      }
+      resolve(orientation)
+    });
+  })
+}
+
+/**
+ * 
+ * @param {*} file 
+ * @param {*} orientation 
+ */
+export  function OrientationTransformed(file, orientation){
+
+  const reader = new FileReader()
+  if( file.type.indexOf('image') < 0){　  // 画像ファイル以外の場合は処理を中断
+    return false;
+  }
+
+  return new Promise((resolve, reject) => {
+    reader.readAsDataURL(file)
+    reader.addEventListener('load', () => {
+      let img = new Image()
+      img.src = reader.result
+      const type = reader.result.substring(0,reader.result.indexOf(";")).replace('data:','')
+      img.addEventListener('load', () => {
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+  
+        if ([5,6,7,8].indexOf(orientation) > -1) {
+          canvas.width = img.height
+          canvas.height = img.width
+        } else {
+          canvas.width = img.width
+          canvas.height = img.height
+        }
+        switch (orientation) {
+          case 2: ctx.transform(-1, 0, 0, 1, img.width, 0); break
+          case 3: ctx.transform(-1, 0, 0, -1, img.width, img.height); break
+          case 4: ctx.transform(1, 0, 0, -1, 0, img.height); break
+          case 5: ctx.transform(0, 1, 1, 0, 0, 0); break
+          case 6: ctx.transform(0, 1, -1, 0, img.height, 0); break
+          case 7: ctx.transform(0, -1, -1, 0, img.height, img.width); break
+          case 8: ctx.transform(0, -1, 1, 0, 0, img.width); break
+        }
+        ctx.drawImage(img, 0, 0)
+        const base64 = canvas.toDataURL(type);
+        resolve(base64)   
+      })
+    })
+  });
 }
